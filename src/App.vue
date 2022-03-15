@@ -7,7 +7,7 @@
         <div class="button button2"></div>
         <div class="button button3"></div>
         <div class="button button4" @click="click"></div>
-        <div class="button button5"></div>
+        <a class="button button5" href="https://www.bilibili.com/video/BV1GJ411x7h7"></a>
         <transition name="fade">
           <img
             class="tip"
@@ -126,7 +126,13 @@ bg()
 
     .button5
       top 75.6%
-      cursor not-allowed
+      background url('./assets/5.png')
+      bg()
+      cursor pointer
+
+      &:hover
+        background url('./assets/5_hover.png')
+        bg()
 
     .tip
       position absolute
