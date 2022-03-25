@@ -2,15 +2,12 @@
   <transition name="fade" appear @after-leave="end">
     <div class="wrapper" v-if="isShow">
       <img class="img" :src="bg" />
-      <div class="button start" @click="showMsg"></div>
+      <div class="button start" @click="toMessage"></div>
       <div class="button load"></div>
       <div class="button config"></div>
-      <div class="button extra" @click="showTip" v-if="extra"></div>
+      <div class="button extra" @click="toExtra" v-if="extra"></div>
       <div class="button extra-disable" v-else></div>
       <div class="button exit" @click="exit"></div>
-      <transition name="fade">
-        <img class="tip" src="@/assets/images/tip.png" v-if="tipShow" @click="hideTip" />
-      </transition>
     </div>
   </transition>
 </template>
@@ -21,31 +18,26 @@ import { ref } from 'vue'
 const emit = defineEmits(['end'])
 
 const bg = process.env.NODE_ENV === 'development' ? require('@/assets/images/title_bg.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/title_bg.png'
-const 我打你啊 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/我打你啊.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/我打你啊.mp3')
+
 const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
 
 const isShow = ref(true)
 const extra = ref(false)
-const tipShow = ref(false)
+let flag = 0
 
-const showMsg = () => {
+const toMessage = () => {
   喵.play()
+  flag = 0
+  isShow.value = false
+}
+
+const toExtra = () => {
+  flag = 3
   isShow.value = false
 }
 
 const end = () => {
-  emit('end')
-}
-
-const showTip = () => {
-  我打你啊.play()
-  我打你啊.onended = () => {
-    tipShow.value = true
-  }
-}
-
-const hideTip = () => {
-  tipShow.value = false
+  emit('end', flag)
 }
 
 const exit = () => {
@@ -64,15 +56,10 @@ defineExpose({ show, setExtra })
 </script>
 
 <style lang="stylus" scoped>
+@import '@/assets/style/fn.styl'
+
 setTop(num)
   top 23 + 13 * (num - 1) + '%'
-
-bg()
-  background-repeat no-repeat
-  background-size cover
-
-pointer()
-  cursor url('~@/assets/static/cur_over.cur'), pointer
 
 .wrapper
   position relative
@@ -147,12 +134,4 @@ pointer()
     &:active
       background url('@/assets/images/exit_active.png')
       bg()
-
-  .tip
-    position absolute
-    top 0
-    left 0
-    margin auto
-    max-width 100%
-    max-height 100%
 </style>
