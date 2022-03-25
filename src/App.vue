@@ -3,6 +3,7 @@
     <div style="display:none">
       <img src="./assets/images/start_hover.png" />
       <img src="./assets/images/start_active.png" />
+      <img src="./assets/images/extra.png" />
       <img src="./assets/images/extra_hover.png" />
       <img src="./assets/images/extra_active.png" />
       <img src="./assets/images/exit_hover.png" />
@@ -85,6 +86,7 @@ const next = () => {
 }
 
 const titleLeave = () => {
+  index.value = 0
   message.value = true
   document.onkeydown = ({ keyCode }) => {
     if (keyCode === 13) {
