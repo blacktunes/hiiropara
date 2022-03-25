@@ -8,6 +8,8 @@
       <img src="./assets/images/extra_active.png" />
       <img src="./assets/images/exit_hover.png" />
       <img src="./assets/images/exit_active.png" />
+      <img src="./assets/images/empty.png" />
+      <img class="breakglyph" src="./assets/images/breakglyph.png" />
     </div>
     <transition name="fade" appear @after-leave="titleLeave">
       <div class="wrapper" v-if="title">
