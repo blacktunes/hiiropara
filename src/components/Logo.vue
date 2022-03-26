@@ -26,7 +26,6 @@ const play = () => {
 }
 
 const end = () => {
-  console.log(1)
   emit('end')
 }
 

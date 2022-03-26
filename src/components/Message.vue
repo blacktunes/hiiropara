@@ -70,6 +70,8 @@ defineExpose({ show, hide, next })
   background #fff
   font-size 24px
   color rgba(255,255,255,0.9)
+  width 100%
+  height 100%
 
   .img
     margin auto
