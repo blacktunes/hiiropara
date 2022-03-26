@@ -1,6 +1,7 @@
 <template>
   <transition name="fade" @after-leave="end">
     <div class="extra" v-if="isShow">
+      <img class="img" src="@/assets/images/bg.png" />
       <img class="img" src="@/assets/images/extra_bg.png" />
       <div class="cg-btn"></div>
       <div class="cg-box">
@@ -59,9 +60,13 @@ defineExpose({ show })
 
 .extra
   position relative
+  width 100%
+  height 100%
 
   .img
-    margin auto
+    position absolute
+    top 0
+    left 0
     width 100%
     height 100%
 
@@ -111,7 +116,7 @@ defineExpose({ show })
     position absolute
     width 6%
     height 10%
-    bottom 0.7%
+    bottom 0
     right 1.5%
     background url('@/assets/images/extra_back.png')
     bg()
