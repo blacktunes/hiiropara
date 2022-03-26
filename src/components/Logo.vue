@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" appear @before-appear="play" @after-leave="end">
+  <transition name="fade" @after-enter="play" @after-leave="end">
     <div class="logo" v-if="isShow">
       <img class="img" :src="logo" />
     </div>
@@ -10,11 +10,15 @@
 import { ref } from 'vue'
 
 const emit = defineEmits(['end'])
-const isShow = ref(true)
+const isShow = ref(false)
 
 const logo = process.env.NODE_ENV === 'development' ? require('@/assets/images/brandlogo.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/brandlogo.png'
 
 const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
+
+const show = () => {
+  isShow.value = true
+}
 
 const play = () => {
   喵.play()
@@ -22,8 +26,11 @@ const play = () => {
 }
 
 const end = () => {
+  console.log(1)
   emit('end')
 }
+
+defineExpose({ show })
 </script>
 
 <style lang="stylus" scoped>
@@ -35,5 +42,5 @@ const end = () => {
 
 .fade-leave-active
   transition opacity 0.6s
-  transition-delay 2s
+  transition-delay 1s
 </style>

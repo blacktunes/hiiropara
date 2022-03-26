@@ -1,8 +1,8 @@
 <template>
-  <Preload />
   <div class="main" :style="{ width, height }">
     <div class="wrapper" :style="{ transform: `scale(${scale})` }">
-      <Logo @end="showTitle" />
+      <Preload @start="start" />
+      <Logo ref="logoRef" @end="showTitle" />
       <Title ref="titleRef" @end="titleEnd" />
       <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
       <Extra ref="extraRef" @end="showTitle" />
@@ -33,9 +33,14 @@ window.onresize = () => {
   setSize()
 }
 
+const logoRef = ref(null)
 const titleRef = ref(null)
 const messageRef = ref(null)
 const extraRef = ref(null)
+
+const start = () => {
+  logoRef.value.show()
+}
 
 const messageExit = () => {
   messageRef.value.hide()
