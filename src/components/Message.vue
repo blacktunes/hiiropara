@@ -90,6 +90,7 @@ defineExpose({ show, hide, next })
     animation twinkle 0.5s alternate infinite
 
   .message-box
+    font-family cursive, auto
     position absolute
     left 15%
     right 15%

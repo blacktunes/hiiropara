@@ -2,6 +2,7 @@
   <Preload />
   <div class="main" :style="{ width, height }">
     <div class="wrapper" :style="{ transform: `scale(${scale})` }">
+      <Logo @end="showTitle" />
       <Title ref="titleRef" @end="titleEnd" />
       <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
       <Extra ref="extraRef" @end="showTitle" />
@@ -12,6 +13,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Preload from './components/Preload.vue'
+import Logo from './components/Logo.vue'
 import Title from './components/Title.vue'
 import Message from './components/Message.vue'
 import Extra from './components/Extra.vue'

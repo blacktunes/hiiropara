@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" appear @after-leave="end">
+  <transition name="fade" @after-leave="end">
     <div class="title" v-if="isShow">
       <img class="img" :src="bg" />
       <div class="button start" @click="toMessage"></div>
@@ -19,14 +19,11 @@ const emit = defineEmits(['end'])
 
 const bg = process.env.NODE_ENV === 'development' ? require('@/assets/images/title_bg.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/title_bg.png'
 
-// const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
-
-const isShow = ref(true)
+const isShow = ref(false)
 const extra = ref(false)
 let flag = 0
 
 const toMessage = () => {
-  // 喵.play()
   flag = 0
   isShow.value = false
 }
