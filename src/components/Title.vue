@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear @after-leave="end">
-    <div class="wrapper" v-if="isShow">
+    <div class="title" v-if="isShow">
       <img class="img" :src="bg" />
       <div class="button start" @click="toMessage"></div>
       <div class="button load"></div>
@@ -19,14 +19,14 @@ const emit = defineEmits(['end'])
 
 const bg = process.env.NODE_ENV === 'development' ? require('@/assets/images/title_bg.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/title_bg.png'
 
-const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
+// const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
 
 const isShow = ref(true)
 const extra = ref(false)
 let flag = 0
 
 const toMessage = () => {
-  喵.play()
+  // 喵.play()
   flag = 0
   isShow.value = false
 }
@@ -61,13 +61,13 @@ defineExpose({ show, setExtra })
 setTop(num)
   top 23 + 13 * (num - 1) + '%'
 
-.wrapper
+.title
   position relative
 
   .img
     margin auto
-    max-width 100vw
-    max-height 100vh
+    width 100%
+    height 100%
 
   .button
     position absolute

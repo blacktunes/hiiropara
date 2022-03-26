@@ -62,8 +62,8 @@ defineExpose({ show })
 
   .img
     margin auto
-    max-width 100vw
-    max-height 100vh
+    width 100%
+    height 100%
 
   .cg-btn
     position absolute

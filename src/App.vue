@@ -1,18 +1,35 @@
 <template>
-  <div class="main">
-    <Preload />
-    <Title ref="titleRef" @end="titleEnd" />
-    <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
-    <Extra ref="extraRef" @end="showTitle" />
+  <Preload />
+  <div class="main" :style="{ width, height }">
+    <div class="wrapper" :style="{ transform: `scale(${scale})` }">
+      <Title ref="titleRef" @end="titleEnd" />
+      <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
+      <Extra ref="extraRef" @end="showTitle" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Preload from './components/Preload.vue'
 import Title from './components/Title.vue'
 import Message from './components/Message.vue'
 import Extra from './components/Extra.vue'
+
+const scale = ref(1)
+const width = computed(() => `${1280 * scale.value}px`)
+const height = computed(() => `${720 * scale.value}px`)
+
+const setSize = () => {
+  const h = window.innerWidth / 1280
+  const v = window.innerHeight / 720
+  scale.value = Math.min(h, v)
+}
+setSize()
+
+window.onresize = () => {
+  setSize()
+}
 
 const titleRef = ref(null)
 const messageRef = ref(null)
@@ -46,9 +63,13 @@ const titleEnd = (code) => {
 
 <style lang="stylus" scoped>
 .main
-  position fixed
-  inset 0
-  display flex
-  align-items center
-  justify-content center
+  overflow hidden
+  position absolute
+  inset 0px
+  margin auto
+
+  .wrapper
+    width 1280px
+    height 720px
+    transform-origin left top
 </style>

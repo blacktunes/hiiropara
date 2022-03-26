@@ -68,11 +68,13 @@ defineExpose({ show, hide, next })
 .message
   position relative
   background #fff
+  font-size 24px
+  color rgba(255,255,255,0.9)
 
   .img
     margin auto
-    max-width 100vw
-    max-height 100vh
+    width 100%
+    height 100%
 
   .message-bg
     position absolute
