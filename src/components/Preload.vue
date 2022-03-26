@@ -32,9 +32,9 @@ const temp = require.context('@/assets/images', false, /.png$/i).keys().map(item
 })
 
 temp.forEach(item => {
-  if (['bg.png'].includes(item.toLocaleLowerCase())) return
+  // if (['bg.png'].includes(item.toLocaleLowerCase())) return
 
-  if (['title_bg', 'brandlogo.png'].includes(item.toLocaleLowerCase())) {
+  if (['bg.png', 'title_bg', 'brandlogo.png'].includes(item.toLocaleLowerCase())) {
     list.value.push(process.env.NODE_ENV === 'development' ? require(`@/assets/images/${item}`) : `https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/${item}`)
   } else {
     list.value.push(require('@/assets/images/' + item))
