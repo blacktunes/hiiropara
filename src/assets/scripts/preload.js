@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 
 const IMAGES = reactive({})
-const imagesCdnFiles = ['bg', 'title_bg', 'brandlogo']
+const imagesCdnFiles = ['bg', 'title_bg', 'brandlogo', 'cg_1']
 
 const temp = require.context('@/assets/images', false, /.(png|jpg)$/i).keys().map(item => {
   return item.substring(2)
@@ -19,7 +19,7 @@ temp.forEach((item, index) => {
 })
 
 const AUDIOS = reactive({})
-const audiosCdnFiles = ['我打你啊', '喵']
+const audiosCdnFiles = ['喵']
 
 audiosCdnFiles.forEach(item => {
   AUDIOS[item] = new Audio(process.env.NODE_ENV === 'development' ? require(`@/assets/voices/${item}.mp3`) : `https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/${item}.mp3`)

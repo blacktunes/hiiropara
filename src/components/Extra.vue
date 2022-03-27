@@ -5,38 +5,40 @@
       <img class="img" src="@/assets/images/extra_bg.png" />
       <div class="cg-btn"></div>
       <div class="cg-box">
-        <div class="item active" @click="showTip">
-          <img style="width: 92%" src="@/assets/images/cg_1.jpg" />
+        <div class="item active" @click="showCG(IMAGES.cg_1)">
+          <img style="width: 92%" src="@/assets/images/cg_1_preview.jpg" />
         </div>
         <div class="item" v-for="item in 14" :key="item"></div>
       </div>
       <div class="back" @click="back"></div>
       <transition name="fade">
-        <img class="tip" src="@/assets/images/tip.png" v-if="tipShow" @click="hideTip" />
+        <div class="cg-preview" v-if="isCGShow">
+          <img class="cg" :src="cg" @click="hideCG" />
+        </div>
       </transition>
     </div>
   </transition>
 </template>
 
 <script setup>
-import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
+import { IMAGES } from '@/assets/scripts/preload'
 import { ref } from 'vue'
 
 const emit = defineEmits(['end'])
 
 const isShow = ref(false)
 
-const tipShow = ref(false)
+const isCGShow = ref(false)
+const cg = ref('')
 
-const showTip = () => {
-  AUDIOS.我打你啊.play()
-  AUDIOS.我打你啊.onended = () => {
-    tipShow.value = true
-  }
+const showCG = (url) => {
+  cg.value = url
+  isCGShow.value = true
 }
 
-const hideTip = () => {
-  tipShow.value = false
+const hideCG = () => {
+  isCGShow.value = false
+  cg.value = ''
 }
 
 const show = () => {
@@ -129,11 +131,12 @@ defineExpose({ show })
       background url('@/assets/images/extra_back_active.png')
       bg()
 
-  .tip
+  .cg-preview
     position absolute
-    top 0
-    left 0
-    margin auto
-    max-width 100%
-    max-height 100%
+    inset 0
+    overflow-x hidden
+    overflow-y scroll
+
+    .cg
+      width 100%
 </style>

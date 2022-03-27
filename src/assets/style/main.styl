@@ -16,6 +16,15 @@ img
 .fade-enter-to, .fade-leave-from
   opacity 1
 
+.slide-up-enter-active, .slide-up-leave-active
+  transition all 0.5s
+
+.slide-up-enter-from, .slide-up-leave-to
+  transform translateY(100%)
+
+.slide-up-enter-to, .slide-up-leave-from
+  transform translateY(0)
+
 @keyframes twinkle
   from
     opacity 1
