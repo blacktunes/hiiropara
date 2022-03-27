@@ -1,45 +1,42 @@
 <template>
   <div style="display:none">
-    <img v-for="(url, key) in list" :key="key" :src="url" @load="setReady" />
+    <img v-for="(url, key) in IMAGES" :key="key" :src="url" @load="setReady" />
   </div>
   <div class="loading" v-if="isShow">
-    <img class="img" :src="bg" />
-    <div class="text">
-      <div class="line-1" v-if="!ready">预加载中</div>
-      <div class="line-2" v-if="!ready">({{ loadedNum }}/{{ list.length }})</div>
-      <div class="line-1" v-else>加载完成了</div>
-      <div class="line-2" v-if="!ready">(其实跳过也行)</div>
+    <img class="img" :src="IMAGES.title_bg" />
+    <div class="dialog">
+      <img class="dialog-img" src="@/assets/images/dialog.png" />
     </div>
-    <div class="btn" @click="start">开始涩猫</div>
-    <div class="tip">(界面有点丑，先用着)</div>
+    <transition name="fade">
+      <div class="text" v-if="!ready">{{ progress }}</div>
+    </transition>
+    <div
+      class="btn"
+      :style="{ bottom: ready ? '49%' : '40%', fontSize: ready ? '90px' : '24px' }"
+      @click="start"
+    >{{ `${ready ? '开始' : '直接'}涩猫` }}</div>
+    <div class="tip">(界面还是有点丑，先用着)</div>
   </div>
 </template>
 
 <script setup>
+import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits(['start'])
 
+const length = Object.keys(IMAGES).length + Object.keys(AUDIOS).length
+
 const isShow = ref(true)
-const list = ref([])
 const loadedNum = ref(0)
-const ready = computed(() => loadedNum.value >= list.value.length)
+const progress = computed(() => `${((loadedNum.value / length * 100) | 0)}%`)
+const ready = computed(() => loadedNum.value >= length)
 
-const bg = process.env.NODE_ENV === 'development' ? require('@/assets/images/bg.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/bg.png'
-
-const temp = require.context('@/assets/images', false, /.png$/i).keys().map(item => {
-  return item.substring(2)
-})
-
-temp.forEach(item => {
-  // if (['bg.png'].includes(item.toLocaleLowerCase())) return
-
-  if (['bg.png', 'title_bg', 'brandlogo.png'].includes(item.toLocaleLowerCase())) {
-    list.value.push(process.env.NODE_ENV === 'development' ? require(`@/assets/images/${item}`) : `https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/${item}`)
-  } else {
-    list.value.push(require('@/assets/images/' + item))
+for (const i in AUDIOS) {
+  AUDIOS[i].oncanplay = () => {
+    setReady()
   }
-})
+}
 
 const setReady = () => {
   ++loadedNum.value
@@ -64,35 +61,45 @@ const start = () => {
     width 100%
     height 100%
 
+  .dialog
+    position absolute
+    inset 0
+    background rgba(0,0,0,0.5)
+    display flex
+    justify-content center
+    align-items center
+
+    .dialog-img
+      width 700px
+
   .text
     position absolute
     left 50%
-    top 30%
-    transform translateX(-50%)
-    font-size 36px
+    top 46%
+    transform translate(-50%, -50%)
+    font-size 90px
     text-align center
-
-    .line-2
-      font-size 24px
+    color #662211
 
   .btn
     position absolute
     left 50%
-    bottom 30%
-    transform translateX(-50%)
+    bottom 40%
+    transform translate(-50%, 50%)
     font-size 24px
+    font-weight bold
     text-align center
-    padding 15px 20px
-    border-radius 10px
-    background #662211
-    color #fff
+    color #662211
     pointer()
+    transition bottom 0.5s, font-size 0.5s 0.5s
+    text-shadow 1px 0 rgba(255,255,255,0.6), -1px 0 rgba(255,255,255,0.6), 0 1px rgba(255,255,255,0.6), 0 -1px rgba(255,255,255,0.6), 2px 0 2px rgba(0,0,0,0.2), -2px 0 2px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.2), 0 -2px 2px rgba(0,0,0,0.2)
+    animation shake 4s infinite
 
     &:hover
-      background #cc6644
+      color #cc6644
 
     &:active
-      background #ffb911
+      color #ffb911
 
   .tip
     position absolute
@@ -100,4 +107,24 @@ const start = () => {
     bottom 20px
     transform translateX(-50%)
     font-size 16px
+    color #aaa
+
+@keyframes shake
+  30%
+    transform translate(-50%, 50%)
+
+  35%
+    transform translate(-50%, 40%)
+
+  40%
+    transform translate(-50%, 50%)
+
+  45%
+    transform translate(-50%, 40%)
+
+  50%
+    transform translate(-50%, 50%)
+
+  100%
+    transform translate(-50%, 50%)
 </style>

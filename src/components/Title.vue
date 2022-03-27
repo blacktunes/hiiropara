@@ -1,7 +1,8 @@
 <template>
   <transition name="fade" @after-leave="end">
     <div class="title" v-if="isShow">
-      <img class="img" :src="bg" />
+      <img class="bg" :src="IMAGES.title_bg" />
+      <img class="menu" src="@/assets/images/title.jpg" />
       <div class="button start" @click="toMessage"></div>
       <div class="button load"></div>
       <div class="button config"></div>
@@ -14,10 +15,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { IMAGES } from '@/assets/scripts/preload'
 
 const emit = defineEmits(['end'])
-
-const bg = process.env.NODE_ENV === 'development' ? require('@/assets/images/title_bg.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/title_bg.png'
 
 const isShow = ref(false)
 const extra = ref(false)
@@ -63,10 +63,15 @@ setTop(num)
   width 100%
   height 100%
 
-  .img
+  .bg
     margin auto
     width 100%
     height 100%
+
+  .menu
+    position absolute
+    top 0
+    right 0
 
   .button
     position absolute

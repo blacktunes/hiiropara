@@ -1,27 +1,24 @@
 <template>
   <transition name="fade" @after-enter="play" @after-leave="end">
     <div class="logo" v-if="isShow">
-      <img class="img" :src="logo" />
+      <img class="img" :src="IMAGES.brandlogo" />
     </div>
   </transition>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 
 const emit = defineEmits(['end'])
 const isShow = ref(false)
-
-const logo = process.env.NODE_ENV === 'development' ? require('@/assets/images/brandlogo.png') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/brandlogo.png'
-
-const 喵 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/喵.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/喵.mp3')
 
 const show = () => {
   isShow.value = true
 }
 
 const play = () => {
-  喵.play()
+  AUDIOS.喵.play()
   isShow.value = false
 }
 

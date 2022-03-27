@@ -1,12 +1,12 @@
 <template>
   <transition name="fade" @after-leave="end">
     <div class="extra" v-if="isShow">
-      <img class="img" src="@/assets/images/bg.png" />
+      <img class="img" :src="IMAGES.bg" />
       <img class="img" src="@/assets/images/extra_bg.png" />
       <div class="cg-btn"></div>
       <div class="cg-box">
         <div class="item active" @click="showTip">
-          <img style="width: 92%" src="@/assets/images/cg_1.png" />
+          <img style="width: 92%" src="@/assets/images/cg_1.jpg" />
         </div>
         <div class="item" v-for="item in 14" :key="item"></div>
       </div>
@@ -19,19 +19,18 @@
 </template>
 
 <script setup>
+import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 import { ref } from 'vue'
 
 const emit = defineEmits(['end'])
 
 const isShow = ref(false)
 
-const 我打你啊 = new Audio(process.env.NODE_ENV === 'development' ? require('@/assets/voices/我打你啊.mp3') : 'https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/我打你啊.mp3')
-
 const tipShow = ref(false)
 
 const showTip = () => {
-  我打你啊.play()
-  我打你啊.onended = () => {
+  AUDIOS.我打你啊.play()
+  AUDIOS.我打你啊.onended = () => {
     tipShow.value = true
   }
 }
