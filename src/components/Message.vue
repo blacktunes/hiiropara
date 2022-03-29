@@ -14,6 +14,13 @@
           <div class="message-text">{{ msg }}</div>
         </div>
       </transition>
+      <transition name="fade">
+        <div class="choices-box" v-if="isChoicesShow">
+          <div class="item" v-for="(item, key) in choices" :key="key" @click="toLabel(item.label)">
+            <div class="text">{{ item.text }}</div>
+          </div>
+        </div>
+      </transition>
     </div>
   </transition>
 </template>
@@ -28,12 +35,15 @@ let busy = true
 const emit = defineEmits(['exit', 'end'])
 
 const isShowMessageBox = ref(false)
-const isBgShow = ref(false)
+const msg = ref('')
 
+const isBgShow = ref(false)
 const bg = ref('')
 const top = ref(0)
 const transition = ref('top 0s')
-const msg = ref('')
+
+const isChoicesShow = ref(false)
+const choices = ref([])
 
 let index = 0
 const list = [
@@ -126,15 +136,17 @@ const list = [
     data: '因为我喜欢Hiiro'
   },
   {
-    code: 300,
-    data: () => {
-      busy = true
-      isShowMessageBox.value = false
-      setTimeout(() => {
-        busy = false
-        next()
-      }, 600)
-    }
+    code: 102,
+    data: [
+      {
+        text: '你周围有其他人',
+        label: '跳过'
+      },
+      {
+        text: '你周围没有别人',
+        label: '继续'
+      }
+    ]
   },
   {
     code: 200,
@@ -162,14 +174,32 @@ const list = [
   {
     code: 100,
     data: '(后面还没瞎编完)'
+  },
+  {},
+  {
+    code: 101,
+    data: '跳过'
+  },
+  {
+    code: 100,
+    data: '那别看了'
   }
 ]
 
 const reset = () => {
-  bg.value = ''
-  transition.value = 'top 0s'
-  top.value = 0
+  busy = true
+
+  isShowMessageBox.value = false
   msg.value = ''
+
+  isBgShow.value = false
+  bg.value = ''
+  top.value = 0
+  transition.value = 'top 0s'
+
+  isChoicesShow.value = false
+  choices.value = []
+
   index = 0
 }
 
@@ -204,6 +234,17 @@ const setEvent = () => {
       isShowMessageBox.value = true
       msg.value = list[index].data
       break
+    case 101:
+      // 标签
+      next()
+      break
+    case 102:
+      // 显示选项
+      busy = true
+      isShowMessageBox.value = false
+      choices.value = list[index].data
+      isChoicesShow.value = true
+      break
     case 200:
       // 更换背景
       isBgShow.value = false
@@ -215,7 +256,26 @@ const setEvent = () => {
       // 执行脚本
       list[index].data?.()
       break
+    case 999:
+      // 结束
+      emit('exit')
+      break
+    default:
+      next()
+      break
   }
+}
+
+const toLabel = (label) => {
+  isChoicesShow.value = false
+  const _index = list.findIndex(item => (item.code === 101 && item.data === label))
+  if (_index === -1) {
+    next()
+  } else {
+    index = _index
+    setEvent()
+  }
+  busy = false
 }
 
 const setBusy = (flag) => {
@@ -235,6 +295,8 @@ defineExpose({ show, hide, next })
 </script>
 
 <style lang="stylus" scoped>
+@import '@/assets/style/fn.styl'
+
 .message
   position relative
   background #fff
@@ -280,4 +342,39 @@ defineExpose({ show, hide, next })
       right 15%
       color #fff
       text-shadow 0px 2px 2px rgba(0,0,0,0.7), 0 -2px 2px rgba(0,0,0,0.7), 2px 0 2px rgba(0,0,0,0.7), -2px 0 2px rgba(0,0,0,0.7)
+
+  .choices-box
+    position absolute
+    left 50%
+    top 40%
+    transform translate(-50%, -50%)
+    width 65%
+    height 60%
+    display flex
+    flex-direction column
+    justify-content center
+
+    .item
+      display flex
+      justify-content center
+      align-items center
+      background url('@/assets/images/select.png')
+      bg()
+      pointer()
+      padding 5px
+      height 60px
+      margin 30px 0
+
+      &:hover
+        background url('@/assets/images/select_hover.png')
+        bg()
+
+      &:active
+        background url('@/assets/images/select_active.png')
+        bg()
+
+      .text
+        font-size 20px
+        color #fff
+        text-shadow 0px 2px 2px rgba(0,0,0,0.7), 0 -2px 2px rgba(0,0,0,0.7), 2px 0 2px rgba(0,0,0,0.7), -2px 0 2px rgba(0,0,0,0.7)
 </style>
