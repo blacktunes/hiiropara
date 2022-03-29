@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 
 const IMAGES = reactive({})
-const imagesCdnFiles = ['bg', 'bg_00', 'title_bg', 'brandlogo', 'cg_1']
+const imagesCdnFiles = ['bg', 'bg_00', 'bg_01', 'title_bg', 'brandlogo', 'cg_1']
 
 const temp = require.context('@/assets/images', false, /.(png|jpg)$/i).keys().map(item => {
   return item.substring(2)

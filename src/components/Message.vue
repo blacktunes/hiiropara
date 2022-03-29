@@ -12,7 +12,7 @@
           <img class="message-bg" src="@/assets/images/message.png" />
           <img class="breakglyph" src="@/assets/images/breakglyph.png" />
           <div class="message-name">{{ name }}</div>
-          <div class="message-text">{{ msg }}</div>
+          <div class="message-text" v-html="msg"></div>
         </div>
       </transition>
       <transition name="fade">
@@ -35,6 +35,8 @@ let busy = true
 
 const emit = defineEmits(['exit', 'end'])
 
+let extra = false
+
 const isShowMessageBox = ref(false)
 const name = ref('')
 const msg = ref('')
@@ -52,91 +54,74 @@ let index = 0
 const list = [
   {
     code: 100,
-    data: '我喜欢Hiiro'
+    name: '王牛奶',
+    data: '没想到又忙到了这么晚'
   },
   {
     code: 100,
-    data: '曾经在教室里登B站账号的时候被看见了收藏夹然后被嘲笑。有一点点难过，但我什么也没有说'
+    name: '王牛奶',
+    data: '终于可以回家陪<span style="color: pink">Hiiro</span>了'
   },
   {
     code: 100,
-    data: '只是心里有一个小小的声音坚定地重复，我喜欢Hiiro'
+    name: '王牛奶',
+    data: 'Hiiro...Hiiro...寂しい'
   },
   {
     code: 100,
-    data: '我喜欢Hiiro'
+    name: '王牛奶',
+    data: '先去买点三文鱼吧'
+  },
+  {
+    code: 300,
+    data: () => {
+      busy = true
+      isShowMessageBox.value = false
+      isBgShow.value = false
+
+      setTimeout(() => {
+        bg.value = IMAGES.bg_01
+        busy = false
+      }, 500)
+    }
   },
   {
     code: 100,
-    data: '我喜欢Hiiro健康的笑声，喜欢她温柔地说晚上好，喜欢她打游戏时认真的样子，喜欢她说"我是你们的baba"时屑屑的表情，喜欢她轻轻在我耳边告诉我，"我打你们啊"'
+    name: 'SP',
+    data: '「不好意思，今天的三文鱼已经卖光了」'
   },
   {
     code: 100,
-    data: '我知道我喜欢Hiiro'
+    name: '王牛奶',
+    data: '「啊……」'
   },
   {
     code: 100,
-    data: '我会在听到她的声音的时候情不自禁地露出微笑，会在她说晚安的时候依依不舍地听那一个留给我的mua，会在她身体不好的时候不由自主地牵挂不已'
+    name: '王牛奶',
+    data: '明天早点来多买点好了'
   },
   {
     code: 100,
-    data: '她是901IQ的甜菜，是425kg的debiiro，是星辰般闪着光的点亮我的生命的Hiiro'
+    name: '王牛奶',
+    data: '走小巷吧，快点回家陪家里的粉猫'
+  },
+  {
+    code: 300,
+    data: () => {
+      busy = true
+      isShowMessageBox.value = false
+      isBgShow.value = false
+
+      setTimeout(() => {
+        busy = false
+        next()
+      }, 600)
+    }
   },
   {
     code: 100,
-    data: '我知道也许我的同学们说的是对的'
-  },
-  {
-    code: 100,
-    data: '我永远不可能真正遇见那只给我以温暖的粉色猫猫'
-  },
-  {
-    code: 100,
-    data: '我知道也许有一天她会不再出现，像这个世界上很多平凡的人一样，结婚生子，然后慢慢变老'
-  },
-  {
-    code: 100,
-    data: '我知道那句我永远跟你们也许终究只会是一个美好的谎言，有一天她会离去，而我再也找不到那个如她的人'
-  },
-  {
-    code: 100,
-    data: '但是我并不在乎。因为我喜欢hiiro'
-  },
-  {
-    code: 100,
-    data: '所以我不在乎她是谁、她在哪里、曾有着怎样的经历，我只是单纯地相信在这个世界上有一个我在乎的人，正在温柔地陪着我度过日出日落'
-  },
-  {
-    code: 100,
-    data: '就像我固执地相信她真的是九岁的901IQ的粉色猫猫一样'
-  },
-  {
-    code: 100,
-    data: '也许三分钟前路灯闪烁的灯光照出她的影子，也许三千里外她正吃着她喜欢的三文鱼，但那又有什么关系呢？'
-  },
-  {
-    code: 100,
-    data: '至少此刻她陪着我，告诉我我是她喜欢的王牛奶，告诉我这个世界上有个人在乎我'
-  },
-  {
-    code: 100,
-    data: '所以我会在听见那声remember me时红了眼眶'
-  },
-  {
-    code: 100,
-    data: '我们此生不会相见，但我认识她有趣而温柔的灵魂，拥抱着她带给我的感动与温存'
-  },
-  {
-    code: 100,
-    data: '也许在岁月的尽头，在时间失去意义的尽头，我们会变成了宇宙间最微小的尘土，相伴着化为永恒'
-  },
-  {
-    code: 100,
-    data: '而这便已足够'
-  },
-  {
-    code: 100,
-    data: '因为我喜欢Hiiro'
+    name: '王牛奶',
+    data: '——怎么好像有些奇怪的声音'
   },
   {
     code: 102,
@@ -152,18 +137,16 @@ const list = [
     ]
   },
   {
-    code: 200,
-    data: ''
-  },
-  {
     code: 100,
-    data: '——《被拉进巷子里的猫娘》'
+    data: '——在小巷的一个角落'
   },
   {
     code: 300,
     data: () => {
+      extra = true
       busy = true
       isShowMessageBox.value = false
+
       setTimeout(() => {
         busy = false
         next()
@@ -196,12 +179,85 @@ const list = [
   {
     code: 100,
     name: '王酸奶',
-    data: '没想到你最终还是落到了我的手上'
+    data: '「没想到你最终还是落到了我的手上」'
   },
   {
     code: 100,
     name: 'Hiiro',
-    data: '你……你想干什么……'
+    data: '「你……你想干什么……」'
+  },
+  {
+    code: 100,
+    name: '王牛奶',
+    data: '！！！？？'
+  },
+  {
+    code: 100,
+    name: '王牛奶',
+    data: '「你在干嘛！」'
+  },
+  {
+    code: 100,
+    name: 'Hiiro',
+    data: '「王牛奶！」'
+  },
+  {
+    code: 100,
+    name: '王酸奶',
+    data: '「哦？原来你就是王牛奶」'
+  },
+  {
+    code: 100,
+    name: '王酸奶',
+    data: '「没想到会以这种方式跟你见面」'
+  },
+  {
+    code: 100,
+    name: '王牛奶',
+    data: '「你是……王酸奶！？」'
+  },
+  {
+    code: 300,
+    data: () => {
+      busy = true
+      isBgShow.value = false
+      isShowMessageBox.value = false
+
+      setTimeout(() => {
+        busy = false
+        next()
+      }, 600)
+    }
+  },
+  {
+    code: 100,
+    name: '咸鱼',
+    data: '还没等王牛奶反应过来，王酸奶就突然朝他冲了过去'
+  },
+  {
+    code: 100,
+    name: '咸鱼',
+    data: '然后一个公主抱抱起了王牛奶，撒腿就跑'
+  },
+  {
+    code: 100,
+    name: '咸鱼',
+    data: '最后他们幸福的生活在了一起~可喜可贺~可喜可贺~'
+  },
+  {
+    code: 100,
+    name: 'Hiiro',
+    data: '「哈？？？」'
+  },
+  {
+    code: 100,
+    name: '咸鱼',
+    data: '哦，我是旁白，当我不存在就好'
+  },
+  {
+    code: 100,
+    name: 'Hiiro',
+    data: '「哈？？？？？？？」'
   },
   {
     code: 300,
@@ -210,21 +266,13 @@ const list = [
       isShowMessageBox.value = false
       setTimeout(() => {
         isBgShow.value = false
-
-        setTimeout(() => {
-          AUDIOS.我打你啊.play()
-          AUDIOS.我打你啊.onended = () => {
-            busy = false
-            next()
-          }
-        }, 1000)
+        AUDIOS.我打你啊.play()
+        AUDIOS.我打你啊.onended = () => {
+          busy = false
+          next()
+        }
       }, 600)
     }
-  },
-  {
-    code: 100,
-    name: '咸鱼',
-    data: '还没想好后面怎么瞎编'
   },
   {},
   {
@@ -274,7 +322,7 @@ const next = () => {
   if (busy) return
   ++index
   if (!(list?.[index]?.code)) {
-    emit('exit')
+    emit('exit', extra)
     return
   }
   setEvent()
@@ -310,10 +358,6 @@ const setEvent = () => {
     case 300:
       // 执行脚本
       list[index].data?.()
-      break
-    case 999:
-      // 结束
-      emit('exit')
       break
     default:
       next()

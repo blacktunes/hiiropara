@@ -42,9 +42,11 @@ const start = () => {
   logoRef.value.show()
 }
 
-const messageExit = () => {
+const messageExit = (flag) => {
   messageRef.value.hide()
-  titleRef.value.setExtra()
+  if (flag) {
+    titleRef.value.setExtra()
+  }
   document.onkeydown = null
 }
 
