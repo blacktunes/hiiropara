@@ -40,8 +40,8 @@ const name = ref('')
 const msg = ref('')
 
 const isBgShow = ref(false)
-const bgColor = ref('#fff')
-const bg = ref('')
+const bgColor = ref('#000')
+const bg = ref(IMAGES.bg_00)
 const top = ref(0)
 const transition = ref('top 0s')
 
@@ -152,6 +152,10 @@ const list = [
     ]
   },
   {
+    code: 200,
+    data: ''
+  },
+  {
     code: 100,
     data: '——《被拉进巷子里的猫娘》'
   },
@@ -203,7 +207,6 @@ const list = [
     code: 300,
     data: () => {
       busy = true
-      bgColor.value = '#000'
       isShowMessageBox.value = false
       setTimeout(() => {
         isBgShow.value = false
@@ -242,8 +245,8 @@ const reset = () => {
   msg.value = ''
 
   isBgShow.value = false
-  bgColor.value = '#fff'
-  bg.value = ''
+  bgColor.value = '#000'
+  bg.value = IMAGES.bg_00
   top.value = 0
   transition.value = 'top 0s'
 
@@ -302,6 +305,7 @@ const setEvent = () => {
       transition.value = 'top 0s'
       top.value = 0
       bg.value = list[index].data
+      next()
       break
     case 300:
       // 执行脚本
@@ -354,7 +358,6 @@ defineExpose({ show, hide, next })
   color rgba(255,255,255,0.9)
   width 100%
   height 100%
-  transition background 0.2s
 
   .bg
     position absolute
