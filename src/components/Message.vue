@@ -1,9 +1,12 @@
 <template>
   <transition name="fade" @after-leave="end" @after-enter="start">
     <div class="message" @click="next" v-if="isShow">
-      <transition name="fade">
-        <img class="bg" :src="bg" :style="{ top: top + 'px' }" v-if="bg" />
-      </transition>
+      <img
+        class="bg"
+        :src="bg"
+        :style="{ top: top + 'px', opacity: isBgShow ? 1 : 0 }"
+        @load="loaded"
+      />
       <transition name="slide-up" @after-enter="setBusy(false)">
         <div class="message-box" v-if="isShowMessageBox && msg">
           <img class="message-bg" src="@/assets/images/message.png" />
@@ -21,13 +24,15 @@ import { IMAGES } from '@/assets/scripts/preload'
 
 const isShow = ref(false)
 let busy = true
-const isShowMessageBox = ref(false)
 
 const emit = defineEmits(['exit', 'end'])
 
+const isShowMessageBox = ref(false)
+const isBgShow = ref(false)
+
 const bg = ref('')
 const top = ref(0)
-const transition = ref('')
+const transition = ref('top 0s')
 const msg = ref('')
 
 let index = 0
@@ -162,7 +167,7 @@ const list = [
 
 const reset = () => {
   bg.value = ''
-  transition.value = ''
+  transition.value = 'top 0s'
   top.value = 0
   msg.value = ''
   index = 0
@@ -195,16 +200,19 @@ const next = () => {
 const setEvent = () => {
   switch (list[index].code) {
     case 100:
+      // 显示文字
       isShowMessageBox.value = true
       msg.value = list[index].data
       break
     case 200:
-      transition.value = ''
+      // 更换背景
+      isBgShow.value = false
+      transition.value = 'top 0s'
       top.value = 0
       bg.value = list[index].data
-      next()
       break
     case 300:
+      // 执行脚本
       list[index].data?.()
       break
   }
@@ -212,6 +220,11 @@ const setEvent = () => {
 
 const setBusy = (flag) => {
   busy = !!flag
+}
+
+const loaded = () => {
+  isBgShow.value = true
+  next()
 }
 
 const end = () => {
@@ -235,7 +248,8 @@ defineExpose({ show, hide, next })
     top 0
     left 0
     width 100%
-    transition v-bind(transition)
+    opacity 0
+    transition opacity 0.5s, v-bind(transition)
 
   .message-box
     position absolute
