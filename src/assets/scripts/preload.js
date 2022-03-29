@@ -19,7 +19,7 @@ temp.forEach((item, index) => {
 })
 
 const AUDIOS = reactive({})
-const audiosCdnFiles = ['喵']
+const audiosCdnFiles = ['喵', '我打你啊']
 
 audiosCdnFiles.forEach(item => {
   AUDIOS[item] = new Audio(process.env.NODE_ENV === 'development' ? require(`@/assets/voices/${item}.mp3`) : `https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/voices/${item}.mp3`)

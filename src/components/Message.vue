@@ -11,6 +11,7 @@
         <div class="message-box" v-if="isShowMessageBox && msg">
           <img class="message-bg" src="@/assets/images/message.png" />
           <img class="breakglyph" src="@/assets/images/breakglyph.png" />
+          <div class="message-name">{{ name }}</div>
           <div class="message-text">{{ msg }}</div>
         </div>
       </transition>
@@ -27,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { IMAGES } from '@/assets/scripts/preload'
+import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 
 const isShow = ref(false)
 let busy = true
@@ -35,9 +36,11 @@ let busy = true
 const emit = defineEmits(['exit', 'end'])
 
 const isShowMessageBox = ref(false)
+const name = ref('')
 const msg = ref('')
 
 const isBgShow = ref(false)
+const bgColor = ref('#fff')
 const bg = ref('')
 const top = ref(0)
 const transition = ref('top 0s')
@@ -149,6 +152,21 @@ const list = [
     ]
   },
   {
+    code: 100,
+    data: '——《被拉进巷子里的猫娘》'
+  },
+  {
+    code: 300,
+    data: () => {
+      busy = true
+      isShowMessageBox.value = false
+      setTimeout(() => {
+        busy = false
+        next()
+      }, 600)
+    }
+  },
+  {
     code: 200,
     data: IMAGES.cg_1
   },
@@ -166,14 +184,44 @@ const list = [
           setTimeout(() => {
             busy = false
             next()
-          }, 2500)
+          }, 2100)
         }, 2500)
       }, 1000)
     }
   },
   {
     code: 100,
-    data: '(后面还没瞎编完)'
+    name: '王酸奶',
+    data: '没想到你最终还是落到了我的手上'
+  },
+  {
+    code: 100,
+    name: 'Hiiro',
+    data: '你……你想干什么……'
+  },
+  {
+    code: 300,
+    data: () => {
+      busy = true
+      bgColor.value = '#000'
+      isShowMessageBox.value = false
+      setTimeout(() => {
+        isBgShow.value = false
+
+        setTimeout(() => {
+          AUDIOS.我打你啊.play()
+          AUDIOS.我打你啊.onended = () => {
+            busy = false
+            next()
+          }
+        }, 1000)
+      }, 600)
+    }
+  },
+  {
+    code: 100,
+    name: '咸鱼',
+    data: '还没想好后面怎么瞎编'
   },
   {},
   {
@@ -190,9 +238,11 @@ const reset = () => {
   busy = true
 
   isShowMessageBox.value = false
+  name.value = ''
   msg.value = ''
 
   isBgShow.value = false
+  bgColor.value = '#fff'
   bg.value = ''
   top.value = 0
   transition.value = 'top 0s'
@@ -232,6 +282,7 @@ const setEvent = () => {
     case 100:
       // 显示文字
       isShowMessageBox.value = true
+      name.value = list[index].name
       msg.value = list[index].data
       break
     case 101:
@@ -299,11 +350,11 @@ defineExpose({ show, hide, next })
 
 .message
   position relative
-  background #fff
-  font-size 30px
+  background v-bind(bgColor)
   color rgba(255,255,255,0.9)
   width 100%
   height 100%
+  transition background 0.2s
 
   .bg
     position absolute
@@ -328,20 +379,29 @@ defineExpose({ show, hide, next })
 
     .breakglyph
       position absolute
-      right:10%
+      right 15%
       bottom 15%
       width 35px
       animation twinkle 0.5s alternate infinite
 
-    .message-text
-      font-family cursive, auto
+    .message-name
       position absolute
-      top 60px
+      top 30px
+      left 20%
+      right 20%
+      color #ffb911
+      text-shadow 0px 4px 4px rgba(0,0,0,0.7), 0 -4px 4px rgba(0,0,0,0.7), 4px 0 4px rgba(0,0,0,0.7), -4px 0 4px rgba(0,0,0,0.7)
+      font-size 35px
+
+    .message-text
+      position absolute
+      top 80px
       bottom 30px
-      left 15%
-      right 15%
+      left 20%
+      right 20%
       color #fff
       text-shadow 0px 2px 2px rgba(0,0,0,0.7), 0 -2px 2px rgba(0,0,0,0.7), 2px 0 2px rgba(0,0,0,0.7), -2px 0 2px rgba(0,0,0,0.7)
+      font-size 24px
 
   .choices-box
     position absolute
