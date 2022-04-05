@@ -1,7 +1,6 @@
 <template>
   <div class="main" :style="{ width, height }">
     <div class="wrapper" :style="{ transform: `scale(${scale})` }">
-      <Preload @start="start" />
       <Logo ref="logoRef" @end="showTitle" />
       <Title ref="titleRef" @end="titleEnd" />
       <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
@@ -12,7 +11,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import Preload from './components/Preload.vue'
 import Logo from './components/Logo.vue'
 import Title from './components/Title.vue'
 import Message from './components/Message.vue'
@@ -37,10 +35,6 @@ const logoRef = ref(null)
 const titleRef = ref(null)
 const messageRef = ref(null)
 const extraRef = ref(null)
-
-const start = () => {
-  logoRef.value.show()
-}
 
 const messageExit = (flag) => {
   messageRef.value.hide()

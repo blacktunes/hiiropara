@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" @after-enter="play" @after-leave="end">
+  <transition name="fade" appear @after-appear="play" @after-leave="end">
     <div class="logo" v-if="isShow">
       <img class="img" :src="IMAGES.brandlogo" />
     </div>
@@ -11,7 +11,7 @@ import { ref } from 'vue'
 import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 
 const emit = defineEmits(['end'])
-const isShow = ref(false)
+const isShow = ref(true)
 
 const show = () => {
   isShow.value = true

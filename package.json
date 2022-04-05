@@ -5,10 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "electron dist",
+    "build:electron": "electron-packager dist Hiiropara --executableName=game --overwrite --icon=dist/favicon.ico --out=build"
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "electron": "^18.0.1",
+    "electron-packager": "^15.4.0",
     "vue": "^3.2.13"
   },
   "devDependencies": {
