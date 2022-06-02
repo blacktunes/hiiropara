@@ -12,7 +12,7 @@ temp.forEach((item, index) => {
 
   const _index = imagesCdnFiles.indexOf(item.split('.')[0].toLocaleLowerCase())
   if (_index !== -1) {
-    IMAGES[imagesCdnFiles[_index]] = process.env.NODE_ENV === 'development' ? require(`@/assets/images/${item}`) : `https://cdn.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/${item}`
+    IMAGES[imagesCdnFiles[_index]] = process.env.NODE_ENV === 'development' ? require(`@/assets/images/${item}`) : `https://fastly.jsdelivr.net/gh/blacktunes/hiiropara@master/src/assets/images/${item}`
   } else {
     IMAGES[index] = require('@/assets/images/' + item)
   }
