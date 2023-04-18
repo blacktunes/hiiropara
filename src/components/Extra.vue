@@ -140,6 +140,22 @@ defineExpose({ show })
     overflow-x hidden
     overflow-y scroll
 
+    &::-webkit-scrollbar
+      width 7px
+      height 7px
+
+    &::-webkit-scrollbar-track
+      border-radius 5px
+      box-shadow inset 0 0 6px rgba(0, 0, 0, 0.3)
+
+    &::-webkit-scrollbar-thumb
+      border-radius 5px
+      box-shadow inset 0 0 6px rgba(0, 0, 0, 0.1)
+      background-color #e3b6b1
+
+    &::-webkit-scrollbar-thumb:active
+      background-color #ffc9c3
+
     .cg
       width 100%
 </style>
