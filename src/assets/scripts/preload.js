@@ -1,12 +1,14 @@
 import { reactive } from 'vue'
 
 const imagesCdn = {
-  bg: 'https://i.postimg.cc/2jZVhspt/bg.jpg',
-  bg_00: 'https://i.postimg.cc/QtRCvb7S/bg-00.jpg',
-  bg_01: 'https://i.postimg.cc/mg8DTRMP/bg-01.jpg',
-  title_bg: 'https://i.postimg.cc/VLP5RKmk/title-bg.jpg',
-  brandlogo: 'https://i.postimg.cc/cJLv36Z7/brandlogo.jpg',
-  cg_1: 'https://i.postimg.cc/nr4Fgtpc/cg-1.jpg'
+  bg: 'https://s1.ax1x.com/2023/04/18/p9imleU.jpg',
+  bg_00: 'https://s1.ax1x.com/2023/04/18/p9imdOK.jpg',
+  bg_01: 'https://s1.ax1x.com/2023/04/18/p9imDTe.jpg',
+  title_bg: 'https://s1.ax1x.com/2023/04/18/p9imBwD.jpg',
+  brandlogo: 'https://s1.ax1x.com/2023/04/18/p9imyYd.jpg',
+  cg_1: 'https://s1.ax1x.com/2023/04/18/p9imsFH.jpg',
+  message: 'https://s1.ax1x.com/2023/04/18/p9im0eO.png',
+  title: 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
 }
 const imagesCdnFiles = Object.keys(imagesCdn)
 

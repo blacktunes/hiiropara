@@ -1,7 +1,7 @@
 <template>
-  <!-- <div style="display:none">
+  <div style="display:none">
     <img v-for="(url, key) in IMAGES" :key="key" :src="url" @load="setReady" />
-  </div> -->
+  </div>
   <div class="loading" v-if="isShow">
     <img class="img" :src="IMAGES.title_bg" />
     <div class="dialog">
@@ -25,7 +25,7 @@ import { computed, ref } from 'vue'
 
 const emit = defineEmits(['start'])
 
-const length = Object.keys(AUDIOS).length
+const length = Object.keys(IMAGES).length + Object.keys(AUDIOS).length
 
 const isShow = ref(true)
 const loadedNum = ref(0)
