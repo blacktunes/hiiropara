@@ -1,38 +1,86 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const imagesCdn = {
-  bg: 'https://s1.ax1x.com/2023/04/18/p9imleU.jpg',
-  bg_00: 'https://s1.ax1x.com/2023/04/18/p9imdOK.jpg',
-  bg_01: 'https://s1.ax1x.com/2023/04/18/p9imDTe.jpg',
-  title_bg: 'https://s1.ax1x.com/2023/04/18/p9imBwD.jpg',
-  brandlogo: 'https://s1.ax1x.com/2023/04/18/p9imyYd.jpg',
-  cg_1: 'https://s1.ax1x.com/2023/04/18/p9imsFH.jpg',
-  message: 'https://s1.ax1x.com/2023/04/18/p9im0eO.png',
-  title: 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
+  'bg.webp': 'https://s1.ax1x.com/2023/04/18/p9imleU.jpg',
+  'bg_00.webp': 'https://s1.ax1x.com/2023/04/18/p9imdOK.jpg',
+  'bg_01.webp': 'https://s1.ax1x.com/2023/04/18/p9imDTe.jpg',
+  'brandlogo.webp': 'https://s1.ax1x.com/2023/04/18/p9imyYd.jpg',
+  'message.webp': 'https://s1.ax1x.com/2023/04/18/p9im0eO.png',
+  'title.webp': 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
 }
 const imagesCdnFiles = Object.keys(imagesCdn)
 
 const IMAGES = reactive({})
 
-const temp = require.context('@/assets/images', false, /.(png|jpg)$/i).keys().map(item => {
-  return item.substring(2)
-})
+const imageTemp = require
+  .context('@/assets/images', false, /.(webp)$/i)
+  .keys()
+  .map((item) => {
+    return item.substring(2)
+  })
 
-temp.forEach((item, index) => {
-  const _index = imagesCdnFiles.indexOf(item.split('.')[0].toLocaleLowerCase())
+imageTemp.forEach((key) => {
+  const index = imagesCdnFiles.indexOf(key.toLocaleLowerCase())
 
-  if (_index !== -1) {
-    IMAGES[imagesCdnFiles[_index]] = imagesCdn[imagesCdnFiles[_index]]
+  if (index !== -1) {
+    IMAGES[imagesCdnFiles[index]] = imagesCdn[imagesCdnFiles[index]]
   } else {
-    IMAGES[index] = require(`@/assets/images/${item}`)
+    IMAGES[key] = require(`@/assets/images/${key}`)
   }
 })
 
 const AUDIOS = reactive({})
-const audiosCdnFiles = ['喵', '我打你啊']
 
-audiosCdnFiles.forEach(item => {
-  AUDIOS[item] = new Audio(require(`@/assets/voices/${item}.mp3`))
+const audioTemp = require
+  .context('@/assets/voices', false, /.(mp3)$/i)
+  .keys()
+  .map((item) => {
+    return item.substring(2)
+  })
+
+audioTemp.forEach((key) => {
+  AUDIOS[key] = require(`@/assets/voices/${key}`)
 })
 
-export { IMAGES, AUDIOS }
+const progress = ref([0, 0])
+progress.value[1] = Object.keys(IMAGES).length + Object.keys(AUDIOS).length
+
+const getCache = (url) => {
+  return new Promise((resolve) => {
+    fetch(url)
+      .then((res) =>
+        res.blob().then(async (blob) => {
+          resolve(URL.createObjectURL(blob))
+        })
+      )
+      .catch(() => {
+        resolve()
+      })
+  })
+}
+
+const setup = async () => {
+  for (const key in IMAGES) {
+    if (imagesCdnFiles.includes(key.toLocaleLowerCase())) {
+      const img = new Image()
+      img.src = IMAGES[key]
+      img.onload = () => {
+        ++progress.value[0]
+      }
+    } else if (!IMAGES[key].startsWith('data:image')) {
+      IMAGES[key] = (await getCache(IMAGES[key])) || IMAGES[key]
+      ++progress.value[0]
+    } else {
+      ++progress.value[0]
+    }
+  }
+  for (const key in AUDIOS) {
+    AUDIOS[key] = new Audio(AUDIOS[key])
+    AUDIOS[key].oncanplay = () => {
+      ++progress.value[0]
+    }
+  }
+}
+setup()
+
+export { IMAGES, AUDIOS, progress }

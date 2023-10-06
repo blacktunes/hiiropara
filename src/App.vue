@@ -1,11 +1,30 @@
 <template>
-  <div class="main" :style="{ width, height }">
-    <div class="wrapper" :style="{ transform: `scale(${scale})` }">
+  <div
+    class="main"
+    :style="{ width, height }"
+  >
+    <div
+      class="wrapper"
+      :style="{ transform: `scale(${scale})` }"
+    >
       <Preload @start="start" />
-      <Logo ref="logoRef" @end="showTitle" />
-      <Title ref="titleRef" @end="titleEnd" />
-      <Message ref="messageRef" @exit="messageExit" @end="showTitle" />
-      <Extra ref="extraRef" @end="showTitle" />
+      <Logo
+        ref="logoRef"
+        @end="showTitle"
+      />
+      <Title
+        ref="titleRef"
+        @end="titleEnd"
+      />
+      <Message
+        ref="messageRef"
+        @exit="messageExit"
+        @end="showTitle"
+      />
+      <Extra
+        ref="extraRef"
+        @end="showTitle"
+      />
     </div>
   </div>
 </template>
@@ -57,8 +76,8 @@ const showTitle = () => {
 const titleEnd = (code) => {
   if (code === 0) {
     messageRef.value.show()
-    document.onkeydown = ({ keyCode }) => {
-      if (keyCode === 13) {
+    document.onkeydown = ({ key }) => {
+      if (key === 'Enter' || key === 'Control') {
         messageRef.value.next()
       }
     }

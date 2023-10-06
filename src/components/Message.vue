@@ -1,23 +1,54 @@
 <template>
-  <transition name="fade" @after-leave="end" @after-enter="start">
-    <div class="message" @click="next" v-if="isShow">
+  <transition
+    name="fade"
+    @after-leave="end"
+    @after-enter="start"
+  >
+    <div
+      class="message"
+      @click="next"
+      v-if="isShow"
+    >
       <img
         class="bg"
         :src="bg"
         :style="{ top: top + 'px', opacity: isBgShow ? 1 : 0 }"
         @load="loaded"
       />
-      <transition name="slide-up" @after-enter="setBusy(false)">
-        <div class="message-box" v-if="isShowMessageBox && msg">
-          <img class="message-bg" src="@/assets/images/message.png" />
-          <img class="breakglyph" src="@/assets/images/breakglyph.png" />
+      <transition
+        name="slide-up"
+        @after-enter="setBusy(false)"
+      >
+        <div
+          class="message-box"
+          v-if="isShowMessageBox && msg"
+        >
+          <img
+            class="message-bg"
+            :src="IMAGES['message.webp']"
+          />
+          <img
+            class="breakglyph"
+            :src="IMAGES['breakglyph.webp']"
+          />
           <div class="message-name">{{ name }}</div>
-          <div class="message-text" v-html="msg"></div>
+          <div
+            class="message-text"
+            v-html="msg"
+          ></div>
         </div>
       </transition>
       <transition name="fade">
-        <div class="choices-box" v-if="isChoicesShow">
-          <div class="item" v-for="(item, key) in choices" :key="key" @click="toLabel(item.label)">
+        <div
+          class="choices-box"
+          v-if="isChoicesShow"
+        >
+          <div
+            class="item"
+            v-for="(item, key) in choices"
+            :key="key"
+            @click="toLabel(item.label)"
+          >
             <div class="text">{{ item.text }}</div>
           </div>
         </div>
@@ -27,7 +58,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
 
 const isShow = ref(false)
@@ -43,7 +74,7 @@ const msg = ref('')
 
 const isBgShow = ref(false)
 const bgColor = ref('#000')
-const bg = ref(IMAGES.bg_00)
+const bg = ref(IMAGES['bg_00.webp'])
 const top = ref(0)
 const transition = ref('top 0s')
 
@@ -55,22 +86,22 @@ const list = [
   {
     code: 100,
     name: '王牛奶',
-    data: '没想到又忙到了这么晚'
+    data: '「没想到又忙到了这么晚」'
   },
   {
     code: 100,
     name: '王牛奶',
-    data: '终于可以回家陪<span style="color: pink">Hiiro</span>了'
+    data: '「终于可以回家陪<span style="color: pink">Hiiro</span>了」'
   },
   {
     code: 100,
     name: '王牛奶',
-    data: 'Hiiro...Hiiro...寂しい'
+    data: '「Hiiro...Hiiro...寂しい」'
   },
   {
     code: 100,
     name: '王牛奶',
-    data: '先去买点三文鱼吧'
+    data: '「先去买点三文鱼吧」'
   },
   {
     code: 300,
@@ -80,7 +111,7 @@ const list = [
       isBgShow.value = false
 
       setTimeout(() => {
-        bg.value = IMAGES.bg_01
+        bg.value = IMAGES['bg_01.webp']
         busy = false
       }, 500)
     }
@@ -98,12 +129,12 @@ const list = [
   {
     code: 100,
     name: '王牛奶',
-    data: '明天早点来多买点好了'
+    data: '「明天早点来多买点好了」'
   },
   {
     code: 100,
     name: '王牛奶',
-    data: '走小巷吧，快点回家陪家里的粉猫'
+    data: '「走小巷吧，快点回家陪家里的粉猫」'
   },
   {
     code: 300,
@@ -121,7 +152,7 @@ const list = [
   {
     code: 100,
     name: '王牛奶',
-    data: '——怎么好像有些奇怪的声音'
+    data: '「怎么好像有些奇怪的声音？」'
   },
   {
     code: 102,
@@ -144,6 +175,7 @@ const list = [
     code: 300,
     data: () => {
       extra = true
+      localStorage.setItem('hiiropara-extra', 1)
       busy = true
       isShowMessageBox.value = false
 
@@ -155,7 +187,7 @@ const list = [
   },
   {
     code: 200,
-    data: IMAGES.cg_1
+    data: IMAGES['cg_1.webp']
   },
   {
     code: 300,
@@ -232,17 +264,17 @@ const list = [
   {
     code: 100,
     name: '咸鱼',
-    data: '还没等王牛奶反应过来，王酸奶就突然朝他冲了过去'
+    data: '「还没等王牛奶反应过来，王酸奶就突然朝他冲了过去」'
   },
   {
     code: 100,
     name: '咸鱼',
-    data: '然后一个公主抱抱起了王牛奶，撒腿就跑'
+    data: '「然后一个公主抱抱起了王牛奶，撒腿就跑」'
   },
   {
     code: 100,
     name: '咸鱼',
-    data: '最后他们幸福的生活在了一起~可喜可贺~可喜可贺~'
+    data: '「最后他们幸福的生活在了一起~可喜可贺~可喜可贺~」'
   },
   {
     code: 100,
@@ -252,7 +284,7 @@ const list = [
   {
     code: 100,
     name: '咸鱼',
-    data: '哦，我是旁白，当我不存在就好'
+    data: '「哦，我是旁白，当我不存在就好」'
   },
   {
     code: 100,
@@ -266,8 +298,8 @@ const list = [
       isShowMessageBox.value = false
       setTimeout(() => {
         isBgShow.value = false
-        AUDIOS.我打你啊.play()
-        AUDIOS.我打你啊.onended = () => {
+        AUDIOS['我打你啊.mp3'].play()
+        AUDIOS['我打你啊.mp3'].onended = () => {
           busy = false
           next()
         }
@@ -294,7 +326,7 @@ const reset = () => {
 
   isBgShow.value = false
   bgColor.value = '#000'
-  bg.value = IMAGES.bg_00
+  bg.value = IMAGES['bg_00.webp']
   top.value = 0
   transition.value = 'top 0s'
 
@@ -321,7 +353,7 @@ const hide = () => {
 const next = () => {
   if (busy) return
   ++index
-  if (!(list?.[index]?.code)) {
+  if (!list?.[index]?.code) {
     emit('exit', extra)
     return
   }
@@ -367,7 +399,7 @@ const setEvent = () => {
 
 const toLabel = (label) => {
   isChoicesShow.value = false
-  const _index = list.findIndex(item => (item.code === 101 && item.data === label))
+  const _index = list.findIndex((item) => item.code === 101 && item.data === label)
   if (_index === -1) {
     next()
   } else {
@@ -391,6 +423,12 @@ const end = () => {
 }
 
 defineExpose({ show, hide, next })
+
+/* eslint-disable */
+const select = computed(() => `url('${IMAGES['select.webp']}')`)
+const select_hover = computed(() => `url('${IMAGES['select_hover.webp']}')`)
+const select_active = computed(() => `url('${IMAGES['select_active.webp']}')`)
+/* eslint-enable */
 </script>
 
 <style lang="stylus" scoped>
@@ -399,7 +437,7 @@ defineExpose({ show, hide, next })
 .message
   position relative
   background v-bind(bgColor)
-  color rgba(255,255,255,0.9)
+  color rgba(255, 255, 255, 0.9)
   width 100%
   height 100%
 
@@ -437,7 +475,7 @@ defineExpose({ show, hide, next })
       left 20%
       right 20%
       color #ffb911
-      text-shadow 0px 4px 4px rgba(0,0,0,0.7), 0 -4px 4px rgba(0,0,0,0.7), 4px 0 4px rgba(0,0,0,0.7), -4px 0 4px rgba(0,0,0,0.7)
+      text-shadow 0px 4px 4px rgba(0, 0, 0, 0.7), 0 -4px 4px rgba(0, 0, 0, 0.7), 4px 0 4px rgba(0, 0, 0, 0.7), -4px 0 4px rgba(0, 0, 0, 0.7)
       font-size 35px
 
     .message-text
@@ -447,7 +485,7 @@ defineExpose({ show, hide, next })
       left 20%
       right 20%
       color #fff
-      text-shadow 0px 2px 2px rgba(0,0,0,0.7), 0 -2px 2px rgba(0,0,0,0.7), 2px 0 2px rgba(0,0,0,0.7), -2px 0 2px rgba(0,0,0,0.7)
+      text-shadow 0px 2px 2px rgba(0, 0, 0, 0.7), 0 -2px 2px rgba(0, 0, 0, 0.7), 2px 0 2px rgba(0, 0, 0, 0.7), -2px 0 2px rgba(0, 0, 0, 0.7)
       font-size 24px
 
   .choices-box
@@ -465,7 +503,7 @@ defineExpose({ show, hide, next })
       display flex
       justify-content center
       align-items center
-      background url('@/assets/images/select.png')
+      background v-bind(select)
       bg()
       pointer()
       padding 5px
@@ -473,15 +511,15 @@ defineExpose({ show, hide, next })
       margin 30px 0
 
       &:hover
-        background url('@/assets/images/select_hover.png')
+        background v-bind(select_hover)
         bg()
 
       &:active
-        background url('@/assets/images/select_active.png')
+        background v-bind(select_active)
         bg()
 
       .text
         font-size 20px
         color #fff
-        text-shadow 0px 2px 2px rgba(0,0,0,0.7), 0 -2px 2px rgba(0,0,0,0.7), 2px 0 2px rgba(0,0,0,0.7), -2px 0 2px rgba(0,0,0,0.7)
+        text-shadow 0px 2px 2px rgba(0, 0, 0, 0.7), 0 -2px 2px rgba(0, 0, 0, 0.7), 2px 0 2px rgba(0, 0, 0, 0.7), -2px 0 2px rgba(0, 0, 0, 0.7)
 </style>

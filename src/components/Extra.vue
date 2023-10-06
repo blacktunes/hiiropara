@@ -1,12 +1,12 @@
 <template>
   <transition name="fade" @after-leave="end">
     <div class="extra" v-if="isShow">
-      <img class="img" :src="IMAGES.bg" />
-      <img class="img" src="@/assets/images/extra_bg.png" />
+      <img class="img" :src="IMAGES['bg.webp']" />
+      <img class="img" :src="IMAGES['extra_bg.webp']" />
       <div class="cg-btn"></div>
       <div class="cg-box">
-        <div class="item active" @click="showCG(IMAGES.cg_1)">
-          <img style="width: 92%" src="@/assets/images/cg_1_preview.jpg" />
+        <div class="item active" @click="showCG(IMAGES['cg_1.webp'])">
+          <img style="width: 92%" :src="IMAGES['cg_1_preview.webp']" />
         </div>
         <div class="item" v-for="item in 14" :key="item"></div>
       </div>
@@ -22,7 +22,7 @@
 
 <script setup>
 import { IMAGES } from '@/assets/scripts/preload'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const emit = defineEmits(['end'])
 
@@ -54,6 +54,16 @@ const end = () => {
 }
 
 defineExpose({ show })
+
+/* eslint-disable */
+const extra_cg = computed(() => `url('${IMAGES['extra_cg.webp']}')`)
+const extra_item = computed(() => `url('${IMAGES['extra_item.webp']}')`)
+const extra_item_hover = computed(() => `url('${IMAGES['extra_item_hover.webp']}')`)
+const extra_item_active = computed(() => `url('${IMAGES['extra_item_active.webp']}')`)
+const extra_back = computed(() => `url('${IMAGES['extra_back.webp']}')`)
+const extra_back_hover = computed(() => `url('${IMAGES['extra_back_hover.webp']}')`)
+const extra_back_active = computed(() => `url('${IMAGES['extra_back_active.webp']}')`)
+/* eslint-enable */
 </script>
 
 <style lang="stylus" scoped>
@@ -78,7 +88,7 @@ defineExpose({ show })
     top 10%
     left 50%
     transform translateX(-50%)
-    background url('@/assets/images/extra_cg.png')
+    background v-bind(extra_cg)
     bg()
 
   .cg-box
@@ -100,17 +110,17 @@ defineExpose({ show })
       height 28%
       margin 1%
       background #000
-      background url('@/assets/images/extra_item.png')
+      background v-bind(extra_item)
       bg()
       pointer()
 
     .active
       &:hover
-        background url('@/assets/images/extra_item_hover.png')
+        background v-bind(extra_item_hover)
         bg()
 
       &:active
-        background url('@/assets/images/extra_item_active.png')
+        background v-bind(extra_item_active)
         bg()
 
   .back
@@ -119,16 +129,16 @@ defineExpose({ show })
     height 10%
     bottom 0
     right 1.5%
-    background url('@/assets/images/extra_back.png')
+    background v-bind(extra_back)
     bg()
     pointer()
 
     &:hover
-      background url('@/assets/images/extra_back_hover .png')
+      background v-bind(extra_back_hover)
       bg()
 
     &:active
-      background url('@/assets/images/extra_back_active.png')
+      background v-bind(extra_back_active)
       bg()
 
   .cg-preview
@@ -157,5 +167,6 @@ defineExpose({ show })
       background-color #ffc9c3
 
     .cg
+      display block
       width 100%
 </style>

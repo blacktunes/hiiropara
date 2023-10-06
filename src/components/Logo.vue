@@ -1,7 +1,17 @@
 <template>
-  <transition name="fade" @after-enter="play" @after-leave="end">
-    <div class="logo" v-if="isShow">
-      <img class="img" :src="IMAGES.brandlogo" />
+  <transition
+    name="fade"
+    @after-enter="play"
+    @after-leave="end"
+  >
+    <div
+      class="logo"
+      v-if="isShow"
+    >
+      <img
+        class="img"
+        :src="IMAGES['brandlogo.webp']"
+      />
     </div>
   </transition>
 </template>
@@ -18,7 +28,7 @@ const show = () => {
 }
 
 const play = () => {
-  AUDIOS.喵.play()
+  AUDIOS['喵.mp3'].play()
   isShow.value = false
 }
 

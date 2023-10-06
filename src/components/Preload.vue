@@ -1,46 +1,45 @@
 <template>
-  <div style="display:none">
-    <img v-for="(url, key) in IMAGES" :key="key" :src="url" @load="setReady" />
-  </div>
-  <div class="loading" v-if="isShow">
-    <img class="img" :src="IMAGES.title_bg" />
+  <div
+    class="loading"
+    v-if="isShow"
+  >
+    <img
+      class="img"
+      :src="IMAGES['title_bg.webp']"
+    />
     <div class="dialog">
-      <img class="dialog-img" src="@/assets/images/dialog.png" />
+      <img
+        class="dialog-img"
+        :src="IMAGES['dialog.webp']"
+      />
     </div>
     <transition name="fade">
-      <div class="text" v-if="!ready">{{ progress }}</div>
+      <div
+        class="text"
+        v-if="!ready"
+      >
+        {{ progressText }}
+      </div>
     </transition>
     <div
       class="btn"
       :style="{ bottom: ready ? '49%' : '40%', fontSize: ready ? '90px' : '24px' }"
       @click="start"
-    >{{ `${ready ? '开始' : '直接'}涩猫` }}</div>
-    <div class="tip">(界面还是有点丑，先用着)</div>
+    >
+      {{ `${ready ? '开始' : '直接'}涩猫` }}
+    </div>
   </div>
 </template>
 
 <script setup>
-import { IMAGES, AUDIOS } from '@/assets/scripts/preload'
+import { IMAGES, progress } from '@/assets/scripts/preload'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits(['start'])
 
-const length = Object.keys(IMAGES).length + Object.keys(AUDIOS).length
-
 const isShow = ref(true)
-const loadedNum = ref(0)
-const progress = computed(() => `${((loadedNum.value / length * 100) | 0)}%`)
-const ready = computed(() => loadedNum.value >= length)
-
-for (const i in AUDIOS) {
-  AUDIOS[i].oncanplay = () => {
-    setReady()
-  }
-}
-
-const setReady = () => {
-  ++loadedNum.value
-}
+const progressText = computed(() => `${((progress.value[0] / progress.value[1]) * 100) | 0}%`)
+const ready = computed(() => progress.value[0] >= progress.value[1])
 
 const start = () => {
   isShow.value = false
@@ -67,7 +66,7 @@ const start = () => {
     right 0
     bottom 0
     left 0
-    background rgba(0,0,0,0.5)
+    background rgba(0, 0, 0, 0.5)
     display flex
     justify-content center
     align-items center
@@ -95,7 +94,7 @@ const start = () => {
     color #662211
     pointer()
     transition bottom 0.5s, font-size 0.5s 0.5s
-    text-shadow 1px 0 rgba(255,255,255,0.6), -1px 0 rgba(255,255,255,0.6), 0 1px rgba(255,255,255,0.6), 0 -1px rgba(255,255,255,0.6), 2px 0 2px rgba(0,0,0,0.2), -2px 0 2px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.2), 0 -2px 2px rgba(0,0,0,0.2)
+    text-shadow 1px 0 rgba(255, 255, 255, 0.6), -1px 0 rgba(255, 255, 255, 0.6), 0 1px rgba(255, 255, 255, 0.6), 0 -1px rgba(255, 255, 255, 0.6), 2px 0 2px rgba(0, 0, 0, 0.2), -2px 0 2px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.2), 0 -2px 2px rgba(0, 0, 0, 0.2)
     animation shake 4s infinite
 
     &:hover
@@ -103,14 +102,6 @@ const start = () => {
 
     &:active
       color #ffb911
-
-  .tip
-    position absolute
-    left 50%
-    bottom 20px
-    transform translateX(-50%)
-    font-size 16px
-    color #aaa
 
 @keyframes shake
   30%
