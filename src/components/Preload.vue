@@ -5,12 +5,12 @@
   >
     <img
       class="img"
-      :src="IMAGES['title_bg.webp']"
+      :src="IMAGES['0_title_bg.webp']"
     />
     <div class="dialog">
       <img
         class="dialog-img"
-        :src="IMAGES['dialog.webp']"
+        :src="IMAGES['1_dialog.webp']"
       />
     </div>
     <transition name="fade">

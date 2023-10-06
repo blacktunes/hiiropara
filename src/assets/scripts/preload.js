@@ -6,7 +6,7 @@ const imagesCdn = {
   'bg_01.webp': 'https://s1.ax1x.com/2023/04/18/p9imDTe.jpg',
   'brandlogo.webp': 'https://s1.ax1x.com/2023/04/18/p9imyYd.jpg',
   'message.webp': 'https://s1.ax1x.com/2023/04/18/p9im0eO.png',
-  'title.webp': 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
+  '2_title.webp': 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
 }
 const imagesCdnFiles = Object.keys(imagesCdn)
 

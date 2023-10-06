@@ -9,11 +9,11 @@
     >
       <img
         class="bg"
-        :src="IMAGES['title_bg.webp']"
+        :src="IMAGES['0_title_bg.webp']"
       />
       <img
         class="menu"
-        :src="IMAGES['title.webp']"
+        :src="IMAGES['2_title.webp']"
       />
       <div
         class="button start"
