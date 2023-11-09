@@ -1,13 +1,6 @@
 import { reactive, ref } from 'vue'
 
-const imagesCdn = {
-  'bg.webp': 'https://s1.ax1x.com/2023/04/18/p9imleU.jpg',
-  'bg_00.webp': 'https://s1.ax1x.com/2023/04/18/p9imdOK.jpg',
-  'bg_01.webp': 'https://s1.ax1x.com/2023/04/18/p9imDTe.jpg',
-  'brandlogo.webp': 'https://s1.ax1x.com/2023/04/18/p9imyYd.jpg',
-  'message.webp': 'https://s1.ax1x.com/2023/04/18/p9im0eO.png',
-  '2_title.webp': 'https://s1.ax1x.com/2023/04/18/p9im6fA.jpg'
-}
+const imagesCdn = {}
 const imagesCdnFiles = Object.keys(imagesCdn)
 
 const IMAGES = reactive({})
