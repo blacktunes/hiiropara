@@ -101,7 +101,12 @@ const list = [
   {
     code: 100,
     name: '王牛奶',
-    data: '「先去买点三文鱼吧」'
+    data: '「说起来今天是<span style="color: pink">Hiiro</span>的生日呢」'
+  },
+  {
+    code: 100,
+    name: '王牛奶',
+    data: '「那就去买点三文鱼吧」'
   },
   {
     code: 300,
